@@ -1,0 +1,1279 @@
+/* Remove Google Fonts import - loaded via index.html preconnect for performance */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========== Design Tokens ========== */
+/* QuickBite brand: orange appetite palette (CLAUDE.md §9 - never Tailwind indigo/blue) */
+
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --surface-muted: #fff7ed;
+  --line: #e8e2da;
+  --ink: #1a1208;
+  --ink-soft: #6b5c45;
+  --accent: #f97316;
+  --accent-strong: #ea580c;
+  --accent-pale: rgba(249, 115, 22, 0.10);
+  --shadow-sm: 0 2px 12px rgba(26, 18, 8, 0.07);
+  --shadow-md: 0 8px 28px rgba(26, 18, 8, 0.12);
+  --shadow-lg: 0 16px 40px rgba(26, 18, 8, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Focus ring - orange, consistent with brand */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(249, 115, 22, 0.50);
+  outline-offset: 2px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Z-pattern warm background gradient - appetite-driving orange warmth (§4.7 Visual Design) */
+.page-shell {
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 8% 6%, rgba(249, 115, 22, 0.07) 0, transparent 28%),
+    radial-gradient(ellipse at 92% 90%, rgba(234, 88, 12, 0.04) 0, transparent 32%);
+}
+
+/* ========== Utility aliases for CSS-variable ink colour ========== */
+
+.text-ink { color: var(--ink); }
+.text-ink\/70 { color: color-mix(in srgb, var(--ink) 70%, transparent); }
+.text-ink\/75 { color: color-mix(in srgb, var(--ink) 75%, transparent); }
+.text-ink\/80 { color: color-mix(in srgb, var(--ink) 80%, transparent); }
+.text-ink\/85 { color: color-mix(in srgb, var(--ink) 85%, transparent); }
+.border-ink { border-color: var(--ink); }
+.border-ink\/60 { border-color: color-mix(in srgb, var(--ink) 60%, transparent); }
+.border-ink\/70 { border-color: color-mix(in srgb, var(--ink) 70%, transparent); }
+
+/* ========== Surface / Shadow utilities ========== */
+
+.shadow-doodle { box-shadow: var(--shadow-md); }
+
+.doodle-panel {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  background: var(--surface);
+}
+
+.brand-mark,
+.font-hand {
+  letter-spacing: -0.03em;
+}
+
+/* ========== Form controls ========== */
+
+.doodle-input {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 0.72rem 0.92rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--ink);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.doodle-input::placeholder { color: #b8a898; }
+
+.doodle-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
+}
+
+/* ========== Icon buttons ========== */
+
+.doodle-icon-button {
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 0.48rem;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(26, 18, 8, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.doodle-icon-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(26, 18, 8, 0.10);
+}
+
+.doodle-icon-button.contrast-on,
+.doodle-icon-button.dark-on {
+  border-color: rgba(249, 115, 22, 0.45);
+  background: rgba(249, 115, 22, 0.08);
+}
+
+/* ========== Cart button ========== */
+
+.doodle-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 0.45rem 0.72rem;
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: 0 2px 10px rgba(26, 18, 8, 0.08);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.doodle-cart.active {
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.20);
+}
+
+.doodle-badge {
+  min-width: 1.3rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #ffffff;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.76rem;
+  line-height: 1.3rem;
+  padding: 0 0.2rem;
+}
+
+/* ========== Hero / Media ========== */
+
+.hero-card { isolation: isolate; }
+.hero-media { box-shadow: var(--shadow-md); }
+
+/* ========== Category chips (Zomato-style horizontal scroll rail) ========== */
+/* Hick's Law: ≤7 visible choices. Serial Position Effect: Biryani first (primacy). */
+
+.category-rail {
+  display: flex;
+  gap: 0.55rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.25rem 0.1rem 0.5rem;
+  /* Partial cut-off on right signals more content (Signifier for scroll) */
+}
+
+.category-rail::-webkit-scrollbar { display: none; }
+
+.category-pill {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, color 0.16s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.category-pill:hover {
+  border-color: rgba(249, 115, 22, 0.35);
+  color: var(--ink);
+}
+
+.category-pill.selected {
+  border-color: var(--accent);
+  background: rgba(249, 115, 22, 0.06);
+  color: var(--accent-strong);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
+}
+
+.category-pill-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.16s ease;
+}
+
+/* Legacy grid category (kept for compatibility) */
+.category-circle {
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  min-height: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.65rem;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+  background: var(--surface);
+}
+
+.category-circle:hover {
+  border-color: rgba(249, 115, 22, 0.35);
+  box-shadow: 0 6px 18px rgba(249, 115, 22, 0.10);
+}
+
+.category-circle.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.14);
+}
+
+/* ========== Filter chips ========== */
+
+.doodle-chip {
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  padding: 0.3rem 0.74rem;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.doodle-chip.selected {
+  border-color: var(--accent);
+  background: rgba(249, 115, 22, 0.08);
+  color: var(--accent-strong);
+}
+
+.filter-pill {
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.84rem;
+  padding: 0.36rem 0.84rem;
+}
+
+.filter-pill.selected {
+  border-color: var(--accent);
+  background: rgba(249, 115, 22, 0.10);
+  color: var(--accent-strong);
+}
+
+/* ========== Quick-pick cards ========== */
+
+.quick-pick-card {
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+  padding: 0.8rem;
+  font-size: 0.94rem;
+  background: var(--surface-muted);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.quick-pick-card:hover {
+  border-color: rgba(249, 115, 22, 0.30);
+  box-shadow: 0 6px 18px rgba(249, 115, 22, 0.08);
+}
+
+.quick-pick-thumb {
+  box-shadow: 0 4px 12px rgba(26, 18, 8, 0.12);
+}
+
+/* ========== Navigation link ========== */
+
+.doodle-link {
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 0.56rem 0.76rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.16s ease, background-color 0.16s ease;
+}
+
+.doodle-link:hover {
+  border-color: rgba(249, 115, 22, 0.35);
+  background: var(--surface-muted);
+}
+
+/* Active menu category highlight */
+.menu-item-active {
+  border-color: var(--accent) !important;
+  background: rgba(249, 115, 22, 0.08);
+}
+
+/* ========== Hamburger / Drawer ========== */
+
+.hamburger-drawer {
+  border-right: 1px solid var(--line);
+  box-shadow: 14px 0 40px rgba(26, 18, 8, 0.16);
+}
+
+/* ========== Primary CTA - orange glow, brand dominance (§4.7 Dominance) ========== */
+
+.doodle-primary-btn {
+  border: 1.5px solid var(--accent);
+  border-radius: 12px;
+  background: var(--accent);
+  color: #ffffff;
+  font-weight: 700;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.32);
+  transition: transform 0.14s ease, box-shadow 0.14s ease, background-color 0.14s ease;
+}
+
+.doodle-primary-btn:hover {
+  transform: translateY(-1px);
+  background: var(--accent-strong);
+  box-shadow: 0 10px 26px rgba(234, 88, 12, 0.36);
+}
+
+.doodle-primary-btn:active { transform: translateY(0); }
+
+/* ========== Secondary CTA ========== */
+
+.doodle-secondary-btn {
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+  font-family: inherit;
+  padding: 0.48rem 0.78rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.16s ease, background-color 0.16s ease;
+}
+
+.doodle-secondary-btn:hover {
+  border-color: rgba(249, 115, 22, 0.35);
+  background: var(--surface-muted);
+}
+
+/* ========== List items ========== */
+
+.doodle-line-item {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 2px 10px rgba(26, 18, 8, 0.05);
+}
+
+/* ========== Food card badges ========== */
+
+.food-badge-meta,
+.food-badge-veg,
+.food-badge-nonveg {
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.food-badge-meta {
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--ink-soft);
+}
+
+.food-badge-veg {
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+}
+
+.food-badge-nonveg {
+  background: rgba(220, 38, 38, 0.12);
+  color: #b91c1c;
+}
+
+body.dark-doodle .food-badge-meta {
+  background: color-mix(in srgb, var(--ink) 14%, transparent);
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
+}
+
+body.dark-doodle .food-badge-veg {
+  background: rgba(74, 222, 128, 0.18);
+  color: #86efac;
+}
+
+body.dark-doodle .food-badge-nonveg {
+  background: rgba(248, 113, 113, 0.18);
+  color: #fca5a5;
+}
+
+.food-badge-rating {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.12rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: hsla(var(--rating-hue, 60), 70%, 48%, 0.14);
+  color: hsl(var(--rating-hue, 60), 65%, 32%);
+}
+
+body.dark-doodle .food-badge-rating {
+  background: hsla(var(--rating-hue, 60), 70%, 55%, 0.2);
+  color: hsl(var(--rating-hue, 60), 80%, 78%);
+}
+
+/* ========== Food card layout ========== */
+/* F-pattern: name+price left-anchored (81% left-fixation rule per §2.5.10) */
+
+.f-pattern-card { text-align: left; }
+
+/* Zomato-style food card: taller image, rating badge overlaid bottom-right of image */
+.food-card-image-wrap {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.food-card-rating-badge {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  background: rgba(26, 18, 8, 0.75);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.18rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+/* ========== Quantity controls ========== */
+
+.doodle-counter-btn {
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  background: var(--surface);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  font-family: inherit;
+}
+
+.card-qty-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 12px;
+  background: rgba(249, 115, 22, 0.06);
+  padding: 0.22rem 0.35rem;
+}
+
+.card-qty-value {
+  min-width: 1.65rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--accent-strong);
+}
+
+/* ========== Destructive / trash button ========== */
+
+.doodle-trash-btn {
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fff1f2;
+  font-weight: 600;
+  color: #be123c;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.68rem;
+}
+
+/* ========== Order tracking ========== */
+
+.tracking-fill {
+  background: linear-gradient(90deg, var(--accent), #f59e0b);
+  transition: width 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Determinate stepped tracker - start slow, end fast (§4.14 Wait-time UX) */
+.tracking-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  flex: 1;
+  position: relative;
+}
+
+.tracking-step-dot {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  transition: border-color 0.3s ease, background 0.3s ease;
+  z-index: 1;
+}
+
+.tracking-step-dot.done {
+  border-color: #22c55e;
+  background: #22c55e;
+  color: #fff;
+}
+
+.tracking-step-dot.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.20);
+}
+
+.mobile-sticky-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 45;
+  border-top: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(10px);
+  padding: 0.8rem 1rem calc(0.8rem + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  box-shadow: 0 -8px 28px rgba(26, 18, 8, 0.10);
+}
+
+.doodle-pop { animation: card-rise 260ms ease; }
+
+.tracking-hero {
+  background: linear-gradient(140deg, rgba(249, 115, 22, 0.07), var(--surface));
+}
+
+/* ========== Help screen ========== */
+
+.quick-help-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-muted);
+  padding: 0.9rem;
+}
+
+.faq-toggle {
+  border: 0;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.9rem;
+  color: var(--ink);
+  font-family: inherit;
+  width: 100%;
+  cursor: pointer;
+}
+
+.faq-content {
+  border-top: 1px solid var(--line);
+  margin: 0;
+  padding: 0.85rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+/* ========== Portion sizer ========== */
+
+.portion-sizer { overflow: hidden; }
+
+.portion-slider {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.pizza-doodle {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(26, 18, 8, 0.10);
+}
+
+/* ========== Onboarding overlay ========== */
+/* Asimov Law 1: harm-prevention consent shown at step 1. Determinate progress dots. */
+
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  background: rgba(26, 18, 8, 0.55);
+  padding: 1rem;
+}
+
+.onboarding-card {
+  width: 100%;
+  max-width: 34rem;
+  background: var(--surface);
+  padding: 1.3rem;
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+}
+
+.onboarding-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  border-radius: 999px;
+  background: rgba(249, 115, 22, 0.08);
+  color: var(--accent-strong);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+}
+
+.onboarding-progress {
+  margin-top: 0.8rem;
+  display: flex;
+  gap: 0.42rem;
+}
+
+.onboarding-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  border: 1.5px solid #c4b5a0;
+  background: var(--surface);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.onboarding-dot.active {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.onboarding-dot.passed {
+  border-color: var(--accent);
+  background: rgba(249, 115, 22, 0.40);
+}
+
+/* ========== Shortcut hint ========== */
+
+.shortcut-hint {
+  position: fixed;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  z-index: 46;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 8px 24px rgba(26, 18, 8, 0.12);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+}
+
+/* ========== Empty states ========== */
+
+.empty-illustration { filter: drop-shadow(0 6px 12px rgba(26, 18, 8, 0.10)); }
+
+/* ========== Cart animations ========== */
+
+.cart-bump { animation: cart-bump 420ms ease; }
+.badge-pop { animation: badge-pop 300ms ease; }
+
+.cart-toast {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  z-index: 60;
+  white-space: nowrap;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-md);
+  font-size: 0.84rem;
+  font-weight: 600;
+  padding: 0.45rem 0.68rem;
+  animation: toast-in-out 1.4s ease both;
+}
+
+/* ========== Location chip (Zomato-style delivery address in TopNav) ========== */
+
+.location-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  padding: 0.3rem 0.6rem;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-muted);
+  cursor: pointer;
+  transition: border-color 0.16s ease;
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.location-chip:hover {
+  border-color: rgba(249, 115, 22, 0.45);
+}
+
+.location-chip-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ========== High contrast & dark mode ========== */
+
+body.high-contrast {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-muted: #ffffff;
+  --line: #000000;
+  --ink: #000000;
+  --ink-soft: #000000;
+  --accent: #c2410c;
+  --accent-strong: #9a3412;
+}
+
+body.dark-doodle {
+  --bg: #160e05;
+  --surface: #1e1208;
+  --surface-muted: #251609;
+  --line: #3a2810;
+  --ink: #f5ede3;
+  --ink-soft: #c4a882;
+  --accent: #fb923c;
+  --accent-strong: #f97316;
+  --accent-pale: rgba(251, 146, 60, 0.12);
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.40);
+  --shadow-md: 0 10px 32px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.65);
+}
+
+body.dark-doodle .page-shell {
+  background-image:
+    radial-gradient(ellipse at 8% 6%, rgba(251, 146, 60, 0.10) 0, transparent 28%),
+    radial-gradient(ellipse at 92% 90%, rgba(234, 88, 12, 0.07) 0, transparent 32%);
+}
+
+body.dark-doodle .doodle-panel,
+body.dark-doodle .doodle-line-item,
+body.dark-doodle .doodle-secondary-btn,
+body.dark-doodle .doodle-link,
+body.dark-doodle .doodle-cart,
+body.dark-doodle .filter-pill,
+body.dark-doodle .category-circle,
+body.dark-doodle .doodle-chip,
+body.dark-doodle .quick-pick-card,
+body.dark-doodle .faq-toggle,
+body.dark-doodle .quick-help-card {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+body.dark-doodle .category-pill,
+body.dark-doodle .cuisine-chip {
+  background: var(--surface) !important;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+body.dark-doodle .doodle-input,
+body.dark-doodle .doodle-icon-button,
+body.dark-doodle .doodle-counter-btn {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+body.dark-doodle .doodle-input::placeholder { color: #7a5e3c; }
+
+body.dark-doodle .doodle-primary-btn { color: #160e05; }
+
+body.dark-doodle .doodle-badge {
+  background: var(--accent);
+  color: #160e05;
+}
+
+body.dark-doodle .doodle-trash-btn {
+  border-color: rgba(251, 113, 133, 0.45);
+  background: rgba(251, 113, 133, 0.12);
+  color: #fecdd3;
+}
+
+body.dark-doodle .menu-item-active {
+  border-color: rgba(251, 146, 60, 0.55);
+  background: rgba(251, 146, 60, 0.14);
+}
+
+body.dark-doodle .hamburger-drawer {
+  background: var(--surface);
+  border-right-color: var(--line);
+}
+
+body.dark-doodle .tracking-hero {
+  background: linear-gradient(140deg, rgba(251, 146, 60, 0.14), var(--surface));
+}
+
+body.dark-doodle .pizza-doodle { background: var(--surface-muted); }
+body.dark-doodle .portion-hand { filter: invert(1) brightness(1.2); }
+
+.portion-note { background: #fff7ed; }
+body.dark-doodle .portion-note { background: rgba(251, 146, 60, 0.14); }
+
+body.dark-doodle .onboarding-card { background: var(--surface); }
+body.dark-doodle .faq-toggle { background: var(--surface); }
+
+body.dark-doodle .location-chip {
+  background: var(--surface-muted);
+  border-color: var(--line);
+}
+
+/* Normalize Tailwind light utilities under dark theme */
+body.dark-doodle .bg-white,
+body.dark-doodle .bg-white\/95 {
+  background-color: var(--surface) !important;
+}
+
+body.dark-doodle .bg-gray-50 { background-color: var(--surface-muted) !important; }
+
+body.dark-doodle .border-gray-200,
+body.dark-doodle .border-gray-100 { border-color: var(--line) !important; }
+
+/* ========== Animations ========== */
+
+@keyframes card-rise {
+  from { transform: translateY(6px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes cart-bump {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes badge-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+@keyframes toast-in-out {
+  0% { opacity: 0; transform: translateY(-6px); }
+  15% { opacity: 1; transform: translateY(0); }
+  85% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+
+/* ========== Responsive ========== */
+
+@media (min-width: 768px) {
+  .mobile-sticky-bar { display: none; }
+}
+
+@media (max-width: 767px) {
+  .cart-toast { font-size: 0.78rem; }
+
+  .shortcut-hint {
+    bottom: 5.2rem;
+    right: 0.5rem;
+    font-size: 0.72rem;
+  }
+
+  /* Main content clears bottom nav */
+  .page-shell main { padding-bottom: 5rem; }
+}
+
+/* ========== Bottom Navigation (mobile only) ========== */
+/* Fitts's Law: ≥56px touch targets. Serial Position Effect: Home=primacy, Help=recency. */
+
+.bottom-nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  border-top: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -6px 24px rgba(26, 18, 8, 0.08);
+}
+
+@media (min-width: 768px) {
+  .bottom-nav-bar { display: none; }
+}
+
+body.dark-doodle .bottom-nav-bar {
+  background: rgba(30, 18, 8, 0.97);
+  border-top-color: var(--line);
+}
+
+.bottom-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.18rem;
+  padding: 0.55rem 0.25rem;
+  min-height: 56px;
+  text-decoration: none;
+  color: var(--ink-soft);
+  position: relative;
+  transition: color 0.15s ease;
+}
+
+.bottom-nav-item.active { color: var(--accent); }
+
+.bottom-nav-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.bottom-nav-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.bottom-nav-badge {
+  position: absolute;
+  top: 0.3rem;
+  right: calc(50% - 1.1rem);
+  min-width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.18rem;
+}
+
+.bottom-nav-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5rem;
+  height: 0.18rem;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+/* ========== Restaurant Card ========== */
+/* Gestalt Proximity: info grouped. Cialdini Social Proof: rating + review count visible. */
+
+.restaurant-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.restaurant-card-hero {
+  width: 100%;
+  height: 140px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  font-size: 3.5rem;
+  background: linear-gradient(135deg, var(--surface-muted), var(--surface));
+}
+
+.restaurant-card-body {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.restaurant-offer-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(22, 163, 74, 0.10);
+  border: 1px solid rgba(22, 163, 74, 0.25);
+  color: #15803d;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.18rem 0.48rem;
+  margin-top: 0.4rem;
+}
+
+.veg-only-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(12, 139, 81, 0.10);
+  border: 1px solid rgba(12, 139, 81, 0.30);
+  color: #0C8B51;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+}
+
+body.dark-doodle .restaurant-card { background: var(--surface); border-color: var(--line); }
+
+/* ========== UPI Payment Buttons ========== */
+/* Jakob's Law: UPI logos match Indian user mental models (GPay, PhonePe, Paytm, BHIM). */
+
+.upi-app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.upi-app-btn {
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 0.55rem 0.3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+
+.upi-app-btn:hover { border-color: rgba(249, 115, 22, 0.35); }
+
+.upi-app-btn.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.14);
+  background: rgba(249, 115, 22, 0.04);
+}
+
+.upi-app-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+body.dark-doodle .upi-app-btn { background: var(--surface); border-color: var(--line); }
+
+/* ========== Review / Rating Cards ========== */
+/* Cialdini Social Proof: rating count, verified badge. Gestalt Similarity: consistent star icons. */
+
+.rating-histogram-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.rating-histogram-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), #22c55e);
+  transition: width 600ms ease;
+}
+
+.review-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem;
+  background: var(--surface);
+}
+
+.review-avatar {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.review-stars {
+  display: inline-flex;
+  gap: 0.1rem;
+  color: #f59e0b;
+  font-size: 0.85rem;
+}
+
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: rgba(22, 163, 74, 0.10);
+  color: #15803d;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+}
+
+body.dark-doodle .review-card { background: var(--surface); border-color: var(--line); }
+
+/* ========== Accessibility Screen ========== */
+/* Universal Design - 7 principles as interactive toggles. */
+
+.a11y-principle-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem;
+  background: var(--surface);
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.a11y-principle-card.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.10);
+}
+
+/* HCI: UD principle numbering kept in code comments, not in the UI */
+.a11y-principle-num {
+  display: none;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 2.75rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--line);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.toggle-switch input:checked + .toggle-track { background: var(--accent); }
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 0.18rem;
+  left: 0.18rem;
+  width: 1.12rem;
+  height: 1.12rem;
+  border-radius: 50%;
+  background: var(--surface);
+  transition: transform 0.2s ease;
+}
+
+.toggle-switch input:checked + .toggle-track::after { transform: translateX(1.25rem); }
+
+.font-size-btn {
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  background: var(--surface);
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.font-size-btn.selected {
+  border-color: var(--accent);
+  background: rgba(249, 115, 22, 0.08);
+  color: var(--accent-strong);
+}
